@@ -37,9 +37,8 @@ public class AufgabeEinstellen extends Activity implements View.OnClickListener 
         Multiplikation = (CheckBox)findViewById(R. id. cBMultiplikation);
         Subtraktion= (CheckBox)findViewById(R. id. cBSubtraktion);
         Division = (CheckBox)findViewById(R. id. cBDivision);
-        tvZahl1 = (TextView)findViewById(R. id. tvZahl1);
-        tvOperand = (TextView)findViewById(R. id. tvOperand);
-        tvZahl2 = (TextView)findViewById(R. id. tvZahl2);
+
+
         tvTimer = findViewById(R. id. tvTimer);
         tvGleich = (TextView)findViewById(R. id. tvGleich);
         bisi = findViewById(R. id. eTBis);
@@ -54,12 +53,35 @@ public class AufgabeEinstellen extends Activity implements View.OnClickListener 
         starten.setOnClickListener(this);
 
 
-       zufal();
+       //zufal();
 
-        tvZahl1.setText(String.valueOf(x));
-        tvZahl2.setText(String.valueOf(y));
+        //
+        // tvZahl1.setText(String.valueOf(x));
+
+
+
+
+
+
+
+    }
+
+    public void setBis(){
+        EditText bisi =(EditText)findViewById(R.id. eTBis);
+        b = Integer.parseInt(bisi.getText().toString());
         bisi.setText(String.valueOf(b));
+    }
+    public void zufal(){
+        Random zuf = new Random();
 
+        x = zuf.nextInt(b - a)+1;
+        y = zuf.nextInt(b -a);
+        operand = zuf.nextInt(4);
+        tvZahl1 = (TextView)findViewById(R. id. tvZahl1);
+        tvZahl1.setText(String.valueOf(x));
+        tvOperand = (TextView)findViewById(R. id. tvOperand);
+        tvZahl2 = (TextView)findViewById(R. id. tvZahl2);
+        tvZahl2.setText(String.valueOf(y));
         if(operand == 0){
             tvOperand.setText("+");
         }else if(operand==1){
@@ -72,13 +94,6 @@ public class AufgabeEinstellen extends Activity implements View.OnClickListener 
         }
 
 
-
-
-    }
-
-    public void setBis(){
-        EditText bisi =(EditText)findViewById(R.id. eTBis);
-        b = Integer.parseInt(bisi.getText().toString());
     }
 
     @Override
@@ -86,12 +101,16 @@ public class AufgabeEinstellen extends Activity implements View.OnClickListener 
         if(Multiplikation.isChecked() || Addition.isChecked()||Subtraktion.isChecked()||Division.isChecked()){
             if(Multiplikation.isChecked()){
                 opi.add("*");
+
             }else if(Addition.isChecked()){
                 opi.add("+");
+
             }else if(Subtraktion.isChecked()){
                 opi.add("-");
+
             }else if(Division.isChecked()){
                 opi.add("/");
+
             }else if(!Multiplikation.isChecked()){
                 opi.remove("*");
             }else if(!Addition.isChecked()){
@@ -101,13 +120,15 @@ public class AufgabeEinstellen extends Activity implements View.OnClickListener 
             }else if(!Division.isChecked()){
                 opi.remove("/");
             }
-
+            setBis();
+            zufal();
 
             new CountDownTimer(10_000, 1_000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     tvTimer.setText(String.valueOf(s));
                     s--;
+
                 }
 
                 @Override
@@ -127,14 +148,7 @@ public class AufgabeEinstellen extends Activity implements View.OnClickListener 
         }
     }
 
-    public void zufal(){
-        Random zuf = new Random();
 
-        x = zuf.nextInt(b - a)+1;
-        y = zuf.nextInt(b -a);
-        operand = zuf.nextInt(4);
-
-    }
 
     public void SelectItem(View view) {
         checked = ((CheckBox) view).isChecked();
