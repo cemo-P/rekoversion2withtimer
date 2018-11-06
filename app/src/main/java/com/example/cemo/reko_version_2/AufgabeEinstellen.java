@@ -17,10 +17,10 @@ import java.util.Random;
 
 public class AufgabeEinstellen extends Activity implements View.OnClickListener {
     CheckBox Multiplikation, Addition, Division,Subtraktion;
-    int a=1,b=10, x, y, z, s=10, operand;
+    int a=1,b=10, x, y, z, s=10, operand, eingabe, punkt = 0;
     ArrayList<String> opi = new ArrayList<String>();
     int laenger = opi.size();
-    TextView tvZahl1, tvZahl2, tvOperand, tvGleich, tvTimer;
+    TextView tvZahl1, tvZahl2, tvOperand, tvGleich, tvTimer, tvPunkte;
     Button starten;
     EditText bisi;
     boolean checked;
@@ -37,6 +37,9 @@ public class AufgabeEinstellen extends Activity implements View.OnClickListener 
         Multiplikation = (CheckBox)findViewById(R. id. cBMultiplikation);
         Subtraktion= (CheckBox)findViewById(R. id. cBSubtraktion);
         Division = (CheckBox)findViewById(R. id. cBDivision);
+        tvOperand = (TextView)findViewById(R. id. tvOperand);
+        tvPunkte =(TextView)findViewById(R. id.tvPunkt);
+
 
 
         tvTimer = findViewById(R. id. tvTimer);
@@ -51,15 +54,7 @@ public class AufgabeEinstellen extends Activity implements View.OnClickListener 
         Subtraktion.setEnabled(true);
         Division.setEnabled(true);
         starten.setOnClickListener(this);
-
-
-       //zufal();
-
-        //
-        // tvZahl1.setText(String.valueOf(x));
-
-
-
+        tvPunkte.setText(String.valueOf("Punkte : "+punkt));
 
 
 
@@ -70,6 +65,8 @@ public class AufgabeEinstellen extends Activity implements View.OnClickListener 
         EditText bisi =(EditText)findViewById(R.id. eTBis);
         b = Integer.parseInt(bisi.getText().toString());
         bisi.setText(String.valueOf(b));
+
+
     }
     public void zufal(){
         Random zuf = new Random();
@@ -79,22 +76,39 @@ public class AufgabeEinstellen extends Activity implements View.OnClickListener 
         operand = zuf.nextInt(4);
         tvZahl1 = (TextView)findViewById(R. id. tvZahl1);
         tvZahl1.setText(String.valueOf(x));
-        tvOperand = (TextView)findViewById(R. id. tvOperand);
+
         tvZahl2 = (TextView)findViewById(R. id. tvZahl2);
         tvZahl2.setText(String.valueOf(y));
         if(operand == 0){
+            z = x + y;
             tvOperand.setText("+");
-        }else if(operand==1){
-            tvOperand.setText("*");
-        }else if(operand == 2){
-            tvOperand.setText("-");
-        }else if(operand == 3){
-            tvOperand.setText("/");
 
+
+        }else if(operand==1){
+            z = x * y;
+            tvOperand.setText("*");
+
+        }else if(operand == 2){
+            z = x - y;
+            tvOperand.setText("-");
+
+        }else if(operand == 3){
+            z = x / y;
+            tvOperand.setText("/");
         }
 
 
     }
+    public int ergPruf(){
+        EditText erPruf = (EditText)findViewById(R. id. etErgebnis);
+        eingabe = Integer.parseInt(erPruf.getText().toString());
+        if(z == eingabe) {
+            punkt++;
+        }
+        return punkt;
+    }
+
+
 
     @Override
     public void onClick(View v) {
@@ -123,6 +137,8 @@ public class AufgabeEinstellen extends Activity implements View.OnClickListener 
             setBis();
             zufal();
 
+
+
             new CountDownTimer(10_000, 1_000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -141,11 +157,13 @@ public class AufgabeEinstellen extends Activity implements View.OnClickListener 
             //Es muss implementiert werden
 
         }
+
         else
         {
             Toast.makeText(getApplicationContext(),"Bitte Wählen Sie eine Operand aus", Toast.LENGTH_LONG).show();
 
         }
+
     }
 
 
